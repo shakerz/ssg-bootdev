@@ -1,25 +1,19 @@
-# This is a sample Python script.
-from inline_markdown import split_nodes_delimiter
-from extract_markdown import extract_markdown_images, extract_markdown_links
-from textnode import TextNode,TextType
+import os
+import shutil
+
+from copystatic import copy_files_recursive
 
 
-# Press ⌃R to execute it or replace it with your code.
-# Press Double ⇧ to search everywhere for classes, files, tool windows, actions, and settings.
-
+dir_path_static = "./static"
+dir_path_public = "./public"
 
 def main():
-   node = TextNode("This is text with a `code block` word", TextType.TEXT)
-   node2 = TextNode("This is text with a **bolded phrase** in the middle", TextType.BOLD)
+    print("Deleting public directory...")
+    if os.path.exists(dir_path_public):
+        shutil.rmtree(dir_path_public)
 
-   new_nodes = split_nodes_delimiter([node, node2], "`", TextType.CODE)
-   print(f"new_nodes {new_nodes}")
-
-   text = "This is text with a ![rick roll](https://i.imgur.com/aKaOqIh.gif) and ![obi wan](https://i.imgur.com/fJRm4Vk.jpeg)"
-   print(extract_markdown_images(text))
-
-   text = "This is text with a link [to boot dev](https://www.boot.dev) and [to youtube](https://www.youtube.com/@bootdotdev)"
-   print(extract_markdown_links(text))
+    print("Copying static files to public directory...")
+    copy_files_recursive(dir_path_static, dir_path_public)
 
 
 if __name__ == '__main__':
